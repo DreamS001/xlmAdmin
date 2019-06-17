@@ -204,6 +204,18 @@
         },
         methods: {
             changeDate(){
+                // this.$axios.post(process.env.API_HOST+'jf/queryUserList',this.$qs.stringify({
+				// 	mchId:id,
+				// 	mchName:'',
+				// 	balanceType:'',
+				// 	mchType:''
+				// })).then(res=>{
+				// 	if(res.status==200){
+				// 		this.czMask=res.data.body.list[0]
+				// 	}
+				// }).catch(err=>{
+				// 	console.log(err)
+				// })
                 const now = new Date().getTime();
                 this.data.forEach((item, index) => {
                     const date = new Date(now - (6 - index) * 86400000);

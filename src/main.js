@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import axios from 'axios';
+import qs from 'qs'
 import ElementUI from 'element-ui';
 
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
@@ -13,6 +14,8 @@ axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'http://192.168.0.102:8080/activity/web';
 Vue.prototype.$http = axios
 Vue.prototype.$axios = axios
+
+Vue.prototype.$qs = qs
 
 
 
