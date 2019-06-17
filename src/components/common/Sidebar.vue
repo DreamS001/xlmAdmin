@@ -8,9 +8,17 @@
                         <template slot="title">
                             <i :class="item.icon"></i><span slot="title">{{ item.title }}</span>
                         </template>
-                        <el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index">
-                            {{ subItem.title }}
-                        </el-menu-item>
+                        <template v-for="subItem in item.subs">
+                            <el-submenu v-if="subItem.subs" :index="subItem.index" :key="subItem.index">
+                                <template slot="title">{{ subItem.title }}</template>
+                                <el-menu-item v-for="(threeItem,i) in subItem.subs" :key="i" :index="threeItem.index">
+                                    {{ threeItem.title }}
+                                </el-menu-item>
+                            </el-submenu>
+                            <el-menu-item v-else :index="subItem.index" :key="subItem.index">
+                                {{ subItem.title }}
+                            </el-menu-item>
+                        </template>
                     </el-submenu>
                 </template>
                 <template v-else>
@@ -31,69 +39,107 @@
                 collapse: false,
                 items: [
                     {
-                        icon: 'el-icon-info',
+                        icon: 'el-icon-s-home',
                         index: 'dashboard',
-                        title: '首页'
+                        title: '系统首页'
                     },
                     {
-                        icon: 'el-icon-tickets',
+                        icon: 'el-icon-s-data',
                         index: 'table',
-                        title: '用户信息'
+                        title: '基础表格'
+                    },
+                    {
+                        icon: 'el-icon-more',
+                        index: 'tabs',
+                        title: 'tab选项卡'
+                    },
+                    {
+                        icon: 'el-icon-menu',
+                        index: '3',
+                        title: '表单相关',
+                        subs: [
+                            {
+                                index: 'form',
+                                title: '基本表单'
+                            },
+                            {
+                                index: '3-2',
+                                title: '三级菜单',
+                                subs: [
+                                    {
+                                        index: 'editor',
+                                        title: '富文本编辑器'
+                                    },
+                                    {
+                                        index: 'markdown',
+                                        title: 'markdown编辑器'
+                                    },
+                                ]
+                            },
+                            {
+                                index: 'upload',
+                                title: '文件上传'
+                            }
+                        ]
                     },
                     // {
-                    //     icon: 'el-icon-message',
-                    //     index: 'tabs',
-                    //     title: 'tab选项卡'
+                    //     icon: 'el-icon-lx-emoji',
+                    //     index: 'icon',
+                    //     title: '自定义图标'
+                    // },
+                    {
+                        icon: 'el-icon-pie-chart',
+                        index: 'charts',
+                        title: 'schart图表'
+                    },
+                    {
+                        icon: 'el-icon-rank',
+                        index: '6',
+                        title: '拖拽组件',
+                        subs: [
+                            {
+                                index: 'drag',
+                                title: '拖拽列表',
+                            },
+                            {
+                                index: 'dialog',
+                                title: '拖拽弹框',
+                            }
+                        ]
+                    },
+                    // {
+                    //     icon: 'el-icon-lx-global',
+                    //     index: 'i18n',
+                    //     title: '国际化功能'
                     // },
                     // {
-                    //     icon: 'el-icon-date',
-                    //     index: '3',
-                    //     title: '表单相关',
+                    //     icon: 'el-icon-lx-warn',
+                    //     index: '7',
+                    //     title: '错误处理',
                     //     subs: [
                     //         {
-                    //             index: 'form',
-                    //             title: '基本表单'
+                    //             index: 'permission',
+                    //             title: '权限测试'
                     //         },
                     //         {
-                    //             index: 'editor',
-                    //             title: '富文本编辑器'
-                    //         },
-                    //         {
-                    //             index: 'markdown',
-                    //             title: 'markdown编辑器'
-                    //         },
-                    //         {
-                    //             index: 'upload',
-                    //             title: '文件上传'
+                    //             index: '404',
+                    //             title: '404页面'
                     //         }
                     //     ]
-                    // },
-                    {
-                        icon: 'el-icon-star-on',
-                        index: 'charts',
-                        title: '可视化数据表'
-                    },
-                    // {
-                    //     icon: 'el-icon-rank',
-                    //     index: 'drag',
-                    //     title: '拖拽列表'
-                    // },
-                    // {
-                    //     icon: 'el-icon-warning',
-                    //     index: 'permission',
-                    //     title: '权限测试'
-                    // },
-                    // {
-                    //     icon: 'el-icon-error',
-                    //     index: '404',
-                    //     title: '404页面'
                     // }
                 ]
             }
         },
         computed:{
             onRoutes(){
-                return this.$route.path.replace('/','');
+                console.log(this.$route.path)
+                // console.log(this.$route.path.replace('/',''))
+                // return this.$route.path.replace('/','')==='detail'?this.$route.path.replace('/detail','table'):this.$route.path.replace('/','')
+                if(this.$route.path.replace('/','')==='detail'){
+                    return this.$route.path.replace('/detail','table')
+                }else{
+                    return this.$route.path.replace('/','')
+                }
             }
         },
         created(){
@@ -101,6 +147,7 @@
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })
+            
         }
     }
 </script>
@@ -112,6 +159,10 @@
         left: 0;
         top: 70px;
         bottom:0;
+        overflow-y: scroll;
+    }
+    .sidebar::-webkit-scrollbar{
+        width: 0;
     }
     .sidebar-el-menu:not(.el-menu--collapse){
         width: 250px;

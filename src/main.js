@@ -12,7 +12,7 @@ Vue.use(ElementUI, { size: 'small' });
 axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'http://192.168.0.102:8080/activity/web';
 Vue.prototype.$http = axios
-Vue.prototype.axios = axios
+Vue.prototype.$axios = axios
 
 
 

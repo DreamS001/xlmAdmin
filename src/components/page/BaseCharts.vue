@@ -2,18 +2,29 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item style="font-size:30px;"><i class="el-icon-date"></i> 可视化数据表</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-pie-chart"></i> schart图表</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
-            <div class="schart" style="">
-                <!-- <div class="content-title">柱状图</div> -->
-                <schart canvasId="bar" width="700" height="400" :data="data1" type="bar" :options="options1"></schart>
+            <div class="plugins-tips">
+                vue-schart：vue.js封装sChart.js的图表组件。
+                访问地址：<a href="https://github.com/lin-xin/vue-schart" target="_blank">vue-schart</a>
             </div>
-            <div class="schart">
-                <!-- <div class="content-title">饼状图</div> -->
-                <schart canvasId="pie" width="700" height="400" :data="data2" type="line" :options="options2"></schart>
-                <!-- <schart canvasId="bar" width="500" height="400" :data="data2" type="bar" :options="options2"></schart> -->
+            <div class="schart-box">
+                <div class="content-title">柱状图</div>
+                <schart class="schart" canvasId="bar" :data="data1" type="bar" :options="options1"></schart>
+            </div>
+            <div class="schart-box">
+            <div class="content-title">折线图</div>
+            <schart class="schart" canvasId="line" :data="data1" type="line" :options="options2"></schart>
+            </div>
+            <div class="schart-box">
+            <div class="content-title">饼状图</div>
+            <schart class="schart" canvasId="pie" :data="data2" type="pie" :options="options3"></schart>
+            </div>
+            <div class="schart-box">
+            <div class="content-title">环形图</div>
+            <schart class="schart" canvasId="ring" :data="data2" type="ring" :options="options4"></schart>
             </div>
         </div>
     </div>
@@ -22,94 +33,69 @@
 <script>
     import Schart from 'vue-schart';
     export default {
+        name: 'basecharts',
         components: {
             Schart
         },
         data: () => ({
             data1:[
-                {name:'11-02',value:1141},
-                {name:'11-03',value:1499},
-                {name:'11-04',value:2260},
-                {name:'11-05',value:1170},
-                {name:'11-06',value:970},
-                {name:'11-07',value:1450},
-                {name:'11-08',value:1450}
+                {name:'2012',value:1141},
+                {name:'2013',value:1499},
+                {name:'2014',value:2260},
+                {name:'2015',value:1170},
+                {name:'2016',value:970},
+                {name:'2017',value:1450}
             ],
             data2 : [
-                {name:'点击阅读量',value:1200},
-                {name:'转发总次数',value:1200},
-                {name:'第一次抽奖',value:1200},
-                {name:'第二次抽奖',value:1200},
-                {name:'填写信息量',value:2400},
-                {name:'核销兑奖量',value:1000}
+                {name:'短袖',value:1200},
+                {name:'休闲裤',value:1222},
+                {name:'连衣裙',value:1283},
+                {name:'外套',value:1314},
+                {name:'羽绒服',value:2314}
             ],
             options1: {
-                title: '最近一周访问量',
-                bgColor: '#009688',
-                titleColor: '#ffffff',
-                fillColor: '#e0f2f1',
-                axisColor: '#ffffff',
-                contentColor: '#999'
+                title: '某商店近年营业总额',
+                autoWidth: true,   // 设置宽高自适应
+                showValue: false,
+                bgColor: '#F9EFCC',
+                fillColor: '#00887C',
+                contentColor: 'rgba(46,199,201,0.3)',
+                yEqual: 7
             },
             options2: {
-                title: '最近一周大数据',
-                bgColor: '#009688',
+                title: '某商店近年营业总额',
+                bgColor: '#D5E4EB',
+                titleColor: '#00887C',
+                fillColor: 'red',
+                contentColor: 'rgba(46,199,201,0.3)'
+            },
+            options3: {
+                title: '某商店各商品年度销量',
+                bgColor: '#829dca',
                 titleColor: '#ffffff',
-                fillColor: '#e0f2f1',
-                axisColor: '#ffffff',
-                contentColor: '#999'
+                legendColor: '#ffffff',
+                radius: 120
             },
-            // options3: {
-            //     title: '最近一周抽奖量',
-            //     bgColor: '#607d8b',
-            //     titleColor: '#ffffff',
-            //     legendColor: '#ffffff'
-            // },
-        }),
-        created(){
-            this.ifLogin();
-            this.getweekVisit();
-            this.getweekDate();
-        },
-        methods:{
-            //判断是否登录
-            ifLogin(){
-                let username = sessionStorage.getItem('ms_username');
-                console.log(username)
-                if(username==null){
-                    this.$router.replace('/login')
-                }
-            },
-            //一周访问量
-            getweekVisit(){
-                this.$http.get("/api/activity/web/loginFrom/weekVisit").then((res) => {
-                     console.log(res);
-                     if(res.status==200){
-                         this.data1=res.data.list
-                     }
-                }).catch((err)=>{
-                    console.log(err)
-                })
-            },
-            //一周数据
-            getweekDate(){
-                this.$http.get("/api/activity/web/loginFrom/weekDate").then((res) => {
-                     console.log(res.data.list);
-                     if(res.status==200){
-                         this.data2=res.data.list
-                     }
-                }).catch((err)=>{
-                    console.log(err)
-                })
+            options4: {
+                title: '某商店各商品年度销量',
+                bgColor: '#829daa',
+                titleColor: '#ffffff',
+                legendColor: '#ffffff',
+                radius: 120,
+                innerRadius:80
             }
-        }
+        })
     }
 </script>
 
 <style scoped>
+.schart-box{
+    display: inline-block;
+    margin: 20px;
+}
     .schart{
-        width: 750px;
-        display: inline-block;
+        width: 500px;
+        height: 400px;
     }
     .content-title{
         clear: both;

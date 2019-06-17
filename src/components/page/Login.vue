@@ -45,20 +45,20 @@
                     username:this.ruleForm.username,
                     password:this.ruleForm.password
                 }
-                // sessionStorage.setItem('ms_username',this.ruleForm.username);
-                // this.$router.replace('/')
-                this.$http.post("/api/activity/web/loginFrom/loginFrom",qs.stringify(params)).then((res) => {
-                     console.log(res);
-                     if(res.data.state=='ok'){
-                        sessionStorage.setItem('ms_username',this.ruleForm.username);
-                        this.$router.replace('/')
-                     }else{
-                         alert(res.data.msg)
-                     }
-                }).catch((err)=>{
-                    console.log(err)
+                sessionStorage.setItem('ms_username',this.ruleForm.username);
+                this.$router.replace('/')
+                // this.$http.post("/api/activity/web/loginFrom/loginFrom",qs.stringify(params)).then((res) => {
+                //      console.log(res);
+                //      if(res.data.state=='ok'){
+                //         sessionStorage.setItem('ms_username',this.ruleForm.username);
+                //         this.$router.replace('/')
+                //      }else{
+                //          alert(res.data.msg)
+                //      }
+                // }).catch((err)=>{
+                //     console.log(err)
                     
-                })
+                // })
             }
         }
     }
